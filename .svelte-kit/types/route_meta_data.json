@@ -1,0 +1,23 @@
+{
+	"/(client)": [],
+	"/": [],
+	"/admin": [],
+	"/admin/berita": [],
+	"/admin/galeri": [],
+	"/admin/kegiatan": [],
+	"/admin/login": [],
+	"/admin/profil": [],
+	"/admin/tempat-wisata": [],
+	"/admin/umkm": [],
+	"/admin/umkm/[id]/produk": [],
+	"/(client)/berita/[slug]": [
+		"src/routes/(client)/berita/[slug]/+page.js"
+	],
+	"/(client)/login": [],
+	"/(client)/produk/[id]": [],
+	"/(client)/store/[id]": [],
+	"/(client)/struktur-organisasi": [
+		"src/routes/(client)/struktur-organisasi/+page.js"
+	],
+	"/(client)/wisata/[id]": []
+}

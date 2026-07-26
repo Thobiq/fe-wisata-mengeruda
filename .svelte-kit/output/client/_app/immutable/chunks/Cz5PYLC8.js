@@ -1,0 +1,1 @@
+function e(e){let t=new IntersectionObserver(t=>{t.forEach(t=>{t.isIntersecting?e.dispatchEvent(new CustomEvent(`enterViewport`)):e.dispatchEvent(new CustomEvent(`exitViewport`))})},{rootMargin:`0px 0px -10% 0px`});return t.observe(e),{destroy(){t.disconnect()}}}export{e as t};

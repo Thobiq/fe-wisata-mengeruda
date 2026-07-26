@@ -1,0 +1,1 @@
+import{rt as e}from"./B8o_ubcR.js";e();
