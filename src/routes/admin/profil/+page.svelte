@@ -13,6 +13,8 @@
     }
   });
 
+  let logoUrl = $state(null);
+  let logoFile = $state(null);
   let isSaving = $state(false);
   let showToast = $state(false);
 
@@ -26,25 +28,48 @@
         profile.kontak.telepon = res.telepon || profile.kontak.telepon;
         profile.kontak.email = res.email || profile.kontak.email;
         profile.kontak.alamat = res.alamat || profile.kontak.alamat;
+        if (res.logo_url || res.logo) {
+          let url = res.logo_url || (res.logo.startsWith('http') ? res.logo : `/storage/${res.logo.replace('/storage/', '')}`);
+          if (!url.startsWith('http')) {
+            url = `${import.meta.env.VITE_PUBLIC_BACKEND_URL || 'http://localhost:8000'}${url.startsWith('/') ? '' : '/'}${url}`;
+          }
+          logoUrl = url;
+        }
       }
     } catch (e) {
       console.error('Gagal memuat profil wisata:', e);
     }
   });
 
+  const handleLogoSelect = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      logoFile = file;
+      logoUrl = URL.createObjectURL(file);
+    }
+  };
+
   const handleSave = async () => {
     isSaving = true;
     try {
-      await updateProfile({
-        nama_desa: profile.namaDesa,
-        deskripsi_singkat: profile.deskripsiSingkat,
-        sejarah: profile.sejarah,
-        telepon: profile.kontak.telepon,
-        email: profile.kontak.email,
-        alamat: profile.kontak.alamat
-      });
+      const formData = new FormData();
+      formData.append('nama_desa', profile.namaDesa);
+      formData.append('deskripsi_singkat', profile.deskripsiSingkat);
+      formData.append('sejarah', profile.sejarah);
+      formData.append('telepon', profile.kontak.telepon);
+      formData.append('email', profile.kontak.email);
+      formData.append('alamat', profile.kontak.alamat);
+      if (logoFile) {
+        formData.append('logo', logoFile);
+      }
+      const updated = await updateProfile(formData);
+      if (updated && updated.logo_url) {
+        logoUrl = updated.logo_url;
+        logoFile = null;
+      }
       showToast = true;
       setTimeout(() => showToast = false, 3000);
+      window.dispatchEvent(new CustomEvent('profileUpdated', { detail: updated }));
     } catch (e) {
       alert('Gagal menyimpan profil wisata: ' + (e.response?.data?.message || e.message));
     } finally {
@@ -102,6 +127,28 @@
       </h3>
       
       <div class="space-y-5">
+        <!-- Upload Logo Destinasi / Pariwisata -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 bg-[#FDFBF7] p-4 rounded-xl border border-[#EAE5DF]">
+          <div class="w-20 h-20 rounded-xl bg-white border border-[#EAE5DF] flex items-center justify-center overflow-hidden shadow-sm flex-shrink-0">
+            {#if logoUrl}
+              <img src={logoUrl} alt="Logo Pariwisata" class="w-full h-full object-contain p-1" />
+            {:else}
+              <span class="text-2xl font-serif font-bold text-[#C79F44]">M</span>
+            {/if}
+          </div>
+          <div class="flex-1">
+            <label for="logoUpload" class="block text-sm font-semibold text-[#6D5D51] mb-1">Logo Pariwisata / Destinasi</label>
+            <p class="text-xs text-[#6D5D51]/70 mb-3">Unggah logo resmi untuk navigasi client & admin (PNG, JPG, SVG, maks 5MB).</p>
+            <input 
+              type="file" 
+              id="logoUpload"
+              accept="image/*"
+              onchange={handleLogoSelect}
+              class="block w-full text-sm text-[#6D5D51] file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-[#161311] file:text-[#C79F44] hover:file:bg-[#2C2520] transition-colors cursor-pointer"
+            />
+          </div>
+        </div>
+
         <div>
           <label for="namaDesa" class="block text-sm font-semibold text-[#6D5D51] mb-2">Nama Destinasi / Desa</label>
           <input 

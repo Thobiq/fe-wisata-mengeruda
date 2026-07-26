@@ -20,9 +20,9 @@
     "file": "chunks/api.js",
     "name": "api"
   },
-  "_app.D-kUPiqa.css": {
-    "file": "_app/immutable/assets/app.D-kUPiqa.css",
-    "src": "_app.D-kUPiqa.css"
+  "_app.C0HYNakF.css": {
+    "file": "_app/immutable/assets/app.C0HYNakF.css",
+    "src": "_app.C0HYNakF.css"
   },
   "_client.js": {
     "file": "chunks/client.js",
@@ -153,7 +153,7 @@
     ],
     "css": [
       "_app/immutable/assets/_layout.bEAiB0hB.css",
-      "_app/immutable/assets/app.D-kUPiqa.css"
+      "_app/immutable/assets/app.C0HYNakF.css"
     ]
   },
   "src/routes/(client)/+page.svelte": {
@@ -269,7 +269,7 @@
     ],
     "css": [
       "_app/immutable/assets/_layout.DP842UD5.css",
-      "_app/immutable/assets/app.D-kUPiqa.css"
+      "_app/immutable/assets/app.C0HYNakF.css"
     ]
   },
   "src/routes/admin/+page.svelte": {

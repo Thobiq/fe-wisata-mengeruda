@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import api, { initCsrf } from '$lib/api';
+	import api, { initCsrf, getProfile } from '$lib/api';
 
 	let email = $state('');
 	let password = $state('');
@@ -20,8 +20,7 @@
 			redirectTo = redirectParam;
 		}
 		try {
-			const res = await api.get('/village-profile');
-			const d = res.data?.data || res.data;
+			const d = await getProfile();
 			if (d) {
 				if (d.nama_desa) {
 					let rawNama = d.nama_desa;

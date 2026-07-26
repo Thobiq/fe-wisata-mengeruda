@@ -262,8 +262,15 @@ export async function getProfile() {
 
 export async function updateProfile(data) {
     await initCsrf();
-    const response = await api.put('/profile', data);
-    return response.data.data;
+    if (data instanceof FormData) {
+        const response = await api.post('/profile', data, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        return response.data.data;
+    } else {
+        const response = await api.put('/profile', data);
+        return response.data.data;
+    }
 }
 
 // =======================

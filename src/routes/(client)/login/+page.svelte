@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import api, { initCsrf } from '$lib/api';
+	import api, { initCsrf, getProfile } from '$lib/api';
 
 	const bgImages = [
 		'/hero-1.jpg',
@@ -16,11 +16,30 @@
 	let errorMessage = $state('');
 	let successMessage = $state('');
 	let redirectTo = $state('/admin');
+	let logoUrl = $state(null);
+	let namaDesa = $state('Desa Mengeruda');
 
-	onMount(() => {
+	onMount(async () => {
 		const redirectParam = $page.url.searchParams.get('redirect_to');
 		if (redirectParam && redirectParam.startsWith('/admin')) {
 			redirectTo = redirectParam;
+		}
+		try {
+			const res = await getProfile();
+			if (res) {
+				if (res.nama_desa) {
+					namaDesa = res.nama_desa;
+				}
+				if (res.logo_url || res.logo) {
+					let url = res.logo_url || (res.logo.startsWith('http') ? res.logo : `/storage/${res.logo.replace('/storage/', '')}`);
+					if (!url.startsWith('http')) {
+						url = `${import.meta.env.VITE_PUBLIC_BACKEND_URL || 'http://localhost:8000'}${url.startsWith('/') ? '' : '/'}${url}`;
+					}
+					logoUrl = url;
+				}
+			}
+		} catch (err) {
+			console.error('Gagal memuat profil di client login pariwisata:', err);
 		}
 	});
 
@@ -87,13 +106,19 @@
 		<div class="bg-stone-900/85 backdrop-blur-2xl border border-amber-500/30 rounded-3xl shadow-2xl overflow-hidden text-white">
 			<!-- Header Banner -->
 			<div class="px-8 pt-8 pb-6 border-b border-stone-800 text-center relative">
-				<div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-600 to-yellow-500 shadow-lg shadow-amber-500/25 mb-4">
-					<svg class="w-8 h-8 text-stone-950" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-					</svg>
-				</div>
+				{#if logoUrl}
+					<div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/10 p-2 shadow-lg mb-4">
+						<img src={logoUrl} alt="Logo {namaDesa}" class="w-full h-full object-contain drop-shadow" />
+					</div>
+				{:else}
+					<div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-600 to-yellow-500 shadow-lg shadow-amber-500/25 mb-4">
+						<svg class="w-8 h-8 text-stone-950" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+						</svg>
+					</div>
+				{/if}
 				<h1 class="text-2xl font-bold text-amber-400 tracking-tight font-serif">
-					Wisata Desa Mengeruda
+					Wisata {namaDesa}
 				</h1>
 				<p class="text-xs text-stone-400 mt-1 uppercase tracking-widest font-medium font-sans">
 					Portal Manajemen Pariwisata & Alam

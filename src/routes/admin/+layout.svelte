@@ -2,7 +2,7 @@
 	import '../../app.css';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
-	import api from '$lib/api'; // Pastikan axios sudah diset dengan interceptor CSRF
+	import api, { getProfile } from '$lib/api'; // Pastikan axios sudah diset dengan interceptor CSRF
 	import ConfirmModal from '$lib/components/ConfirmModal.svelte';
 
 	let { children } = $props();
@@ -14,6 +14,7 @@
 	let isUnauthorized = $state(false);
 	let showLogoutModal = $state(false);
 	let isLoggingOut = $state(false);
+	let logoUrl = $state(null);
 
 	// Daftar menu sidebar Tourism Admin
 	const allMenus = [
@@ -95,6 +96,25 @@
 		}
 
 		try {
+			const loadAdminLogo = (res) => {
+				if (res && (res.logo_url || res.logo)) {
+					let url = res.logo_url || (res.logo.startsWith('http') ? res.logo : `/storage/${res.logo.replace('/storage/', '')}`);
+					if (!url.startsWith('http')) {
+						url = `${import.meta.env.VITE_PUBLIC_BACKEND_URL || 'http://localhost:8000'}${url.startsWith('/') ? '' : '/'}${url}`;
+					}
+					logoUrl = url;
+				}
+			};
+
+			getProfile().then(loadAdminLogo).catch((err) => console.error('Gagal mengambil profil logo admin pariwisata:', err));
+
+			const handleProfileUpdate = (e) => {
+				if (e.detail) {
+					loadAdminLogo(e.detail);
+				}
+			};
+			window.addEventListener('profileUpdated', handleProfileUpdate);
+
 			const response = await api.get('/user');
 			if (response.data.success) {
 				let perms = [];
@@ -181,22 +201,26 @@
 	>
 		<!-- Logo & Title -->
 		<div class="flex items-center gap-3 px-6 py-8 border-b border-[#2C2520]">
-			<div
-				class="w-10 h-10 bg-gradient-to-br from-[#E2C37A] to-[#B68D37] rounded-xl flex items-center justify-center shrink-0 shadow-lg"
-			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					viewBox="0 0 24 24"
-					fill="currentColor"
-					class="w-6 h-6 text-[#161311]"
+			{#if logoUrl}
+				<img src={logoUrl} alt="Logo Desa Mengeruda" class="w-10 h-10 object-contain shrink-0 drop-shadow" />
+			{:else}
+				<div
+					class="w-10 h-10 bg-gradient-to-br from-[#E2C37A] to-[#B68D37] rounded-xl flex items-center justify-center shrink-0 shadow-lg"
 				>
-					<path
-						fill-rule="evenodd"
-						d="M14.615 1.595a.75.75 0 01.359.852L12.982 9.75h7.268a.75.75 0 01.548 1.262l-10.5 11.25a.75.75 0 01-1.272-.71l1.992-7.302H3.75a.75.75 0 01-.548-1.262l10.5-11.25a.75.75 0 01.913-.143z"
-						clip-rule="evenodd"
-					/>
-				</svg>
-			</div>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 24 24"
+						fill="currentColor"
+						class="w-6 h-6 text-[#161311]"
+					>
+						<path
+							fill-rule="evenodd"
+							d="M14.615 1.595a.75.75 0 01.359.852L12.982 9.75h7.268a.75.75 0 01.548 1.262l-10.5 11.25a.75.75 0 01-1.272-.71l1.992-7.302H3.75a.75.75 0 01-.548-1.262l10.5-11.25a.75.75 0 01.913-.143z"
+							clip-rule="evenodd"
+						/>
+					</svg>
+				</div>
+			{/if}
 			<div>
 				<h2 class="font-serif font-bold text-white text-[16px] tracking-wide">Tourism Admin</h2>
 				<p class="text-[12px] text-[#C79F44] font-medium">Desa Mengeruda</p>

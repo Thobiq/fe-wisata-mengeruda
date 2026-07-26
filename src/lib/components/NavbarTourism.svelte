@@ -1,15 +1,51 @@
 <script>
   import { onMount } from 'svelte';
+  import { getProfile } from '$lib/api';
   
   let isScrolled = $state(false);
   let isMenuOpen = $state(false);
+  let logoUrl = $state(null);
+  let namaDesa = $state('Mengeruda');
 
-  onMount(() => {
+  onMount(async () => {
     const handleScroll = () => {
       isScrolled = window.scrollY > 50;
     };
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    const loadProfileData = (res) => {
+      if (res) {
+        if (res.nama_desa) {
+          namaDesa = res.nama_desa.replace(/^Desa\s+/i, '');
+        }
+        if (res.logo_url || res.logo) {
+          let url = res.logo_url || (res.logo.startsWith('http') ? res.logo : `/storage/${res.logo.replace('/storage/', '')}`);
+          if (!url.startsWith('http')) {
+            url = `${import.meta.env.VITE_PUBLIC_BACKEND_URL || 'http://localhost:8000'}${url.startsWith('/') ? '' : '/'}${url}`;
+          }
+          logoUrl = url;
+        }
+      }
+    };
+
+    try {
+      const res = await getProfile();
+      loadProfileData(res);
+    } catch (e) {
+      console.error('Gagal mengambil logo navbar tourism:', e);
+    }
+
+    const handleProfileUpdate = (e) => {
+      if (e.detail) {
+        loadProfileData(e.detail);
+      }
+    };
+    window.addEventListener('profileUpdated', handleProfileUpdate);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('profileUpdated', handleProfileUpdate);
+    };
   });
 </script>
 
@@ -18,17 +54,29 @@
     
     <!-- Logo -->
     <a href="/" class="flex items-center gap-3 group">
-      <div class="w-10 h-10 rounded-full bg-[#e8e4e1] flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-md">
-        <span class="text-[#1B120C] font-bold font-serif text-lg">M</span>
-      </div>
+      {#if logoUrl}
+        <img src={logoUrl} alt="Logo {namaDesa}" class="w-10 h-10 object-contain drop-shadow-md transition-transform duration-300 group-hover:scale-105" />
+      {:else}
+        <div class="w-10 h-10 rounded-full bg-[#e8e4e1] flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-md">
+          <span class="text-[#1B120C] font-bold font-serif text-lg">M</span>
+        </div>
+      {/if}
       <div class="flex flex-col">
-        <span class="font-serif font-bold text-white text-xl tracking-wide leading-none">Mengeruda <span class="text-[#FACC15]">Tourism</span></span>
+        <span class="font-serif font-bold text-white text-xl tracking-wide leading-none">{namaDesa} <span class="text-[#FACC15]">Tourism</span></span>
         <span class="text-xs text-gray-300 tracking-widest uppercase mt-1">Information Center</span>
       </div>
     </a>
 
     <!-- Desktop Menu -->
     <div class="hidden md:flex items-center gap-10">
+      <a href="/" class="text-white font-serif font-medium text-[15px] hover:text-[#FACC15] transition-colors relative group">
+        Home
+        <span class="absolute -bottom-1.5 left-0 w-0 h-[2px] bg-[#FACC15] transition-all duration-300 group-hover:w-full"></span>
+      </a>
+      <a href="https://mengeruda.id" class="text-white font-serif font-medium text-[15px] hover:text-[#FACC15] transition-colors relative group">
+        Profil Desa
+        <span class="absolute -bottom-1.5 left-0 w-0 h-[2px] bg-[#FACC15] transition-all duration-300 group-hover:w-full"></span>
+      </a>
       <a href="#maps" class="text-white font-serif font-medium text-[15px] hover:text-[#FACC15] transition-colors relative group">
         Maps
         <span class="absolute -bottom-1.5 left-0 w-0 h-[2px] bg-[#FACC15] transition-all duration-300 group-hover:w-full"></span>

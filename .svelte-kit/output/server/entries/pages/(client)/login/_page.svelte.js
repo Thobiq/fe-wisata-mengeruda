@@ -1,5 +1,5 @@
 import "../../../../chunks/index-server.js";
-import { a as ensure_array_like, l as stringify, n as attr_style, o as head, u as unsubscribe_stores, w as attr } from "../../../../chunks/server.js";
+import { T as escape_html, a as ensure_array_like, l as stringify, n as attr_style, o as head, u as unsubscribe_stores, w as attr } from "../../../../chunks/server.js";
 import "../../../../chunks/api.js";
 import "../../../../chunks/stores.js";
 //#region src/routes/(client)/login/+page.svelte
@@ -11,6 +11,7 @@ function _page($$renderer, $$props) {
 		let email = "";
 		let password = "";
 		let isLoading = false;
+		let namaDesa = "Desa Mengeruda";
 		head("1h3584h", $$renderer, ($$renderer) => {
 			$$renderer.title(($$renderer) => {
 				$$renderer.push(`<title>Login Pengelola Pariwisata | Wisata Desa Mengeruda</title>`);
@@ -22,7 +23,10 @@ function _page($$renderer, $$props) {
 			let img = each_array[index];
 			$$renderer.push(`<div class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out"${attr_style(`background-image: url('${stringify(img)}'); opacity: ${stringify(index === currentIndex ? 1 : 0)};`)}></div>`);
 		}
-		$$renderer.push(`<!--]--> <div class="absolute inset-0 bg-black/50 backdrop-blur-[2px] z-0"></div> <div class="relative z-10 w-full max-w-md mx-4"><div class="bg-stone-900/85 backdrop-blur-2xl border border-amber-500/30 rounded-3xl shadow-2xl overflow-hidden text-white"><div class="px-8 pt-8 pb-6 border-b border-stone-800 text-center relative"><div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-600 to-yellow-500 shadow-lg shadow-amber-500/25 mb-4"><svg class="w-8 h-8 text-stone-950" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div> <h1 class="text-2xl font-bold text-amber-400 tracking-tight font-serif">Wisata Desa Mengeruda</h1> <p class="text-xs text-stone-400 mt-1 uppercase tracking-widest font-medium font-sans">Portal Manajemen Pariwisata &amp; Alam</p></div> <div class="p-8 font-sans">`);
+		$$renderer.push(`<!--]--> <div class="absolute inset-0 bg-black/50 backdrop-blur-[2px] z-0"></div> <div class="relative z-10 w-full max-w-md mx-4"><div class="bg-stone-900/85 backdrop-blur-2xl border border-amber-500/30 rounded-3xl shadow-2xl overflow-hidden text-white"><div class="px-8 pt-8 pb-6 border-b border-stone-800 text-center relative">`);
+		$$renderer.push("<!--[-1-->");
+		$$renderer.push(`<div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-600 to-yellow-500 shadow-lg shadow-amber-500/25 mb-4"><svg class="w-8 h-8 text-stone-950" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>`);
+		$$renderer.push(`<!--]--> <h1 class="text-2xl font-bold text-amber-400 tracking-tight font-serif">Wisata ${escape_html(namaDesa)}</h1> <p class="text-xs text-stone-400 mt-1 uppercase tracking-widest font-medium font-sans">Portal Manajemen Pariwisata &amp; Alam</p></div> <div class="p-8 font-sans">`);
 		$$renderer.push("<!--[-1-->");
 		$$renderer.push(`<!--]--> `);
 		$$renderer.push("<!--[-1-->");
