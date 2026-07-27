@@ -12,6 +12,17 @@ const api = axios.create({
     }
 });
 
+// Tambahkan interceptor agar Axios mengirimkan token CSRF lintas subdomain (Cross-Origin) dari cookie XSRF-TOKEN
+api.interceptors.request.use(config => {
+    if (typeof document !== 'undefined') {
+        const match = document.cookie.match(new RegExp('(^|;\\s*)(XSRF-TOKEN)=([^;]*)'));
+        if (match) {
+            config.headers['X-XSRF-TOKEN'] = decodeURIComponent(match[3]);
+        }
+    }
+    return config;
+});
+
 // Helper untuk fetch CSRF cookie Sanctum sebelum mutasi data
 export async function initCsrf() {
     try {

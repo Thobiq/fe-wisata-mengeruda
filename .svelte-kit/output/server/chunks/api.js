@@ -10,6 +10,13 @@ var api = axios.create({
 		"X-Requested-With": "XMLHttpRequest"
 	}
 });
+api.interceptors.request.use((config) => {
+	if (typeof document !== "undefined") {
+		const match = document.cookie.match(/* @__PURE__ */ new RegExp("(^|;\\s*)(XSRF-TOKEN)=([^;]*)"));
+		if (match) config.headers["X-XSRF-TOKEN"] = decodeURIComponent(match[3]);
+	}
+	return config;
+});
 async function initCsrf() {
 	try {
 		await axios.get(`${BACKEND_URL}/sanctum/csrf-cookie`, {
