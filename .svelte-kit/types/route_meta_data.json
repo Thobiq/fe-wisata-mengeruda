@@ -13,6 +13,9 @@
 	"/(client)/berita/[slug]": [
 		"src/routes/(client)/berita/[slug]/+page.js"
 	],
+	"/(client)/kegiatan/[id]": [
+		"src/routes/(client)/kegiatan/[id]/+page.js"
+	],
 	"/(client)/login": [],
 	"/(client)/produk/[id]": [],
 	"/(client)/store/[id]": [],

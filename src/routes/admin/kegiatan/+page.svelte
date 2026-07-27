@@ -33,7 +33,7 @@
 
   const openAddModal = () => {
     editMode = false;
-    currentEvent = { id: null, name: '', date: '', location: '', status: 'Akan Datang', image: '' };
+    currentEvent = { id: null, name: '', date: '', location: '', description: '', status: 'Akan Datang', image: '' };
     imageFiles = undefined;
     showModal = true;
   };
@@ -67,6 +67,7 @@
       formData.append('name', currentEvent.name || '');
       formData.append('date', currentEvent.date || '');
       formData.append('location', currentEvent.location || '');
+      formData.append('description', currentEvent.description || '');
       formData.append('status', currentEvent.status || 'Akan Datang');
 
       if (imageFiles && imageFiles.length > 0) {
@@ -212,6 +213,16 @@
         <div>
           <label class="block text-sm font-semibold text-[#6D5D51] mb-2">Lokasi Pelaksanaan</label>
           <input type="text" bind:value={currentEvent.location} class="w-full px-4 py-3 rounded-xl border border-[#EAE5DF] focus:border-[#C79F44] outline-none bg-[#FDFBF7] text-[#161311]" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-[#6D5D51] mb-2">Deskripsi & Makna Kegiatan</label>
+          <textarea 
+            bind:value={currentEvent.description} 
+            rows="4" 
+            placeholder="Jelaskan detail rangkaian kegiatan, nilai adat, dan informasi bagi pengunjung..." 
+            class="w-full px-4 py-3 rounded-xl border border-[#EAE5DF] focus:border-[#C79F44] outline-none bg-[#FDFBF7] text-[#161311]"
+          ></textarea>
         </div>
 
         <div>

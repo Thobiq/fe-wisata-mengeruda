@@ -38,7 +38,7 @@
           id: item.id,
           judul: item.name || 'Kegiatan Wisata',
           tanggal: item.date || '',
-          deskripsi: item.location ? `Lokasi: ${item.location}` : '',
+          deskripsi: item.description || (item.location ? `Lokasi: ${item.location}` : ''),
           foto: item.image ? (item.image.startsWith('http') || item.image.startsWith('/') ? item.image : `/storage/${item.image}`) : '/hero-1.jpg'
         }));
       }

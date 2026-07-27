@@ -29,11 +29,12 @@ declare module "$app/types" {
 	type MatcherParam<M> = M extends (param : string) => param is (infer U extends string) ? U : string;
 
 	export interface AppTypes {
-		RouteId(): "/(client)" | "/" | "/admin" | "/admin/berita" | "/admin/galeri" | "/admin/kegiatan" | "/admin/login" | "/admin/profil" | "/admin/tempat-wisata" | "/admin/umkm" | "/admin/umkm/[id]" | "/admin/umkm/[id]/produk" | "/(client)/berita" | "/(client)/berita/[slug]" | "/(client)/login" | "/(client)/produk" | "/(client)/produk/[id]" | "/(client)/store" | "/(client)/store/[id]" | "/(client)/struktur-organisasi" | "/(client)/wisata" | "/(client)/wisata/[id]";
+		RouteId(): "/(client)" | "/" | "/admin" | "/admin/berita" | "/admin/galeri" | "/admin/kegiatan" | "/admin/login" | "/admin/profil" | "/admin/tempat-wisata" | "/admin/umkm" | "/admin/umkm/[id]" | "/admin/umkm/[id]/produk" | "/(client)/berita" | "/(client)/berita/[slug]" | "/(client)/kegiatan" | "/(client)/kegiatan/[id]" | "/(client)/login" | "/(client)/produk" | "/(client)/produk/[id]" | "/(client)/store" | "/(client)/store/[id]" | "/(client)/struktur-organisasi" | "/(client)/wisata" | "/(client)/wisata/[id]";
 		RouteParams(): {
 			"/admin/umkm/[id]": { id: string };
 			"/admin/umkm/[id]/produk": { id: string };
 			"/(client)/berita/[slug]": { slug: string };
+			"/(client)/kegiatan/[id]": { id: string };
 			"/(client)/produk/[id]": { id: string };
 			"/(client)/store/[id]": { id: string };
 			"/(client)/wisata/[id]": { id: string }
@@ -53,6 +54,8 @@ declare module "$app/types" {
 			"/admin/umkm/[id]/produk": { id: string };
 			"/(client)/berita": { slug?: string | undefined };
 			"/(client)/berita/[slug]": { slug: string };
+			"/(client)/kegiatan": { id?: string | undefined };
+			"/(client)/kegiatan/[id]": { id: string };
 			"/(client)/login": Record<string, never>;
 			"/(client)/produk": { id?: string | undefined };
 			"/(client)/produk/[id]": { id: string };
@@ -62,7 +65,7 @@ declare module "$app/types" {
 			"/(client)/wisata": { id?: string | undefined };
 			"/(client)/wisata/[id]": { id: string }
 		};
-		Pathname(): "/" | "/admin" | "/admin/berita" | "/admin/galeri" | "/admin/kegiatan" | "/admin/login" | "/admin/profil" | "/admin/tempat-wisata" | "/admin/umkm" | `/admin/umkm/${string}/produk` & {} | `/berita/${string}` & {} | "/login" | `/produk/${string}` & {} | `/store/${string}` & {} | "/struktur-organisasi" | `/wisata/${string}` & {};
+		Pathname(): "/" | "/admin" | "/admin/berita" | "/admin/galeri" | "/admin/kegiatan" | "/admin/login" | "/admin/profil" | "/admin/tempat-wisata" | "/admin/umkm" | `/admin/umkm/${string}/produk` & {} | `/berita/${string}` & {} | `/kegiatan/${string}` & {} | "/login" | `/produk/${string}` & {} | `/store/${string}` & {} | "/struktur-organisasi" | `/wisata/${string}` & {};
 		ResolvedPathname(): `${"" | `/${string}`}${ReturnType<AppTypes['Pathname']>}`;
 		Asset(): "/acara-adat-resepsi.png" | "/Batas_Desa.json" | "/berangkat-sekolah.jpeg" | "/diskusi-kantor-desa.png" | "/Fasilitas_Desa_Mengeruda.json" | "/hero-1.jpg" | "/hero-2.png" | "/icon-apbd.png" | "/Jalan_Desa_Mengeruda.json" | "/karang-taruna.png" | "/kunjungan-mahasiswa-sekolah.jpeg" | "/logo.png" | "/menjemur-padi.jpeg" | "/mpls-satap.png" | "/peta-mengeruda.png" | "/produk-tempe.png" | "/robots.txt" | "/sinergi-mahasiswa-kkn.jpeg" | "/user-placeholder.png" | "/wisata-air-panas.jpeg" | string & {};
 	}

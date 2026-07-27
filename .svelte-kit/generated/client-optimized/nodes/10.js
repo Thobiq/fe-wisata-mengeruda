@@ -1,1 +1,3 @@
-export { default as component } from "../../../../src/routes/(client)/wisata/[id]/+page.svelte";
+import * as universal from "../../../../src/routes/(client)/struktur-organisasi/+page.js";
+export { universal };
+export { default as component } from "../../../../src/routes/(client)/struktur-organisasi/+page.svelte";

@@ -1,4 +1,4 @@
-import { c as getNews } from "../../../../../chunks/api.js";
+import { l as getNews } from "../../../../../chunks/api.js";
 //#region src/routes/(client)/berita/[slug]/+page.js
 var defaultNews = [{
 	title: "Festival Reba Mengeruda Siap Menyambut Wisatawan Asing",

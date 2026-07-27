@@ -20,9 +20,9 @@
     "file": "chunks/api.js",
     "name": "api"
   },
-  "_app.C0HYNakF.css": {
-    "file": "_app/immutable/assets/app.C0HYNakF.css",
-    "src": "_app.C0HYNakF.css"
+  "_app.BiD9_Pq2.css": {
+    "file": "_app/immutable/assets/app.BiD9_Pq2.css",
+    "src": "_app.BiD9_Pq2.css"
   },
   "_client.js": {
     "file": "chunks/client.js",
@@ -153,7 +153,7 @@
     ],
     "css": [
       "_app/immutable/assets/_layout.bEAiB0hB.css",
-      "_app/immutable/assets/app.C0HYNakF.css"
+      "_app/immutable/assets/app.BiD9_Pq2.css"
     ]
   },
   "src/routes/(client)/+page.svelte": {
@@ -183,6 +183,24 @@
     "file": "entries/pages/(client)/berita/_slug_/_page.svelte.js",
     "name": "entries/pages/(client)/berita/_slug_/_page.svelte",
     "src": "src/routes/(client)/berita/[slug]/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_server.js"
+    ]
+  },
+  "src/routes/(client)/kegiatan/[id]/+page.js": {
+    "file": "entries/pages/(client)/kegiatan/_id_/_page.js",
+    "name": "entries/pages/(client)/kegiatan/_id_/_page",
+    "src": "src/routes/(client)/kegiatan/[id]/+page.js",
+    "isEntry": true,
+    "imports": [
+      "_api.js"
+    ]
+  },
+  "src/routes/(client)/kegiatan/[id]/+page.svelte": {
+    "file": "entries/pages/(client)/kegiatan/_id_/_page.svelte.js",
+    "name": "entries/pages/(client)/kegiatan/_id_/_page.svelte",
+    "src": "src/routes/(client)/kegiatan/[id]/+page.svelte",
     "isEntry": true,
     "imports": [
       "_server.js"
@@ -269,7 +287,7 @@
     ],
     "css": [
       "_app/immutable/assets/_layout.DP842UD5.css",
-      "_app/immutable/assets/app.C0HYNakF.css"
+      "_app/immutable/assets/app.BiD9_Pq2.css"
     ]
   },
   "src/routes/admin/+page.svelte": {

@@ -1,6 +1,6 @@
 import "../../../../chunks/index-server.js";
 import { T as escape_html, a as ensure_array_like, i as derived, o as head, t as attr_class, w as attr } from "../../../../chunks/server.js";
-import { c as getNews, r as deleteNews } from "../../../../chunks/api.js";
+import { l as getNews, r as deleteNews } from "../../../../chunks/api.js";
 import { t as ConfirmModal } from "../../../../chunks/ConfirmModal.js";
 /* empty css                            */
 import "quill";

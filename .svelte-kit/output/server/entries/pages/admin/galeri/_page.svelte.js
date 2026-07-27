@@ -1,6 +1,6 @@
 import "../../../../chunks/index-server.js";
 import { T as escape_html, a as ensure_array_like, i as derived, o as head, t as attr_class, w as attr } from "../../../../chunks/server.js";
-import { n as deleteGallery, s as getGalleries } from "../../../../chunks/api.js";
+import { c as getGalleries, n as deleteGallery } from "../../../../chunks/api.js";
 import { t as ConfirmModal } from "../../../../chunks/ConfirmModal.js";
 //#region src/routes/admin/galeri/+page.svelte
 function _page($$renderer, $$props) {

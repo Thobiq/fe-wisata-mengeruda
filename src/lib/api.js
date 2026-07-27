@@ -224,6 +224,11 @@ export async function getEvents() {
     return response.data.data;
 }
 
+export async function getEvent(id) {
+    const response = await api.get(`/events/${id}`);
+    return response.data.data;
+}
+
 export async function createEvent(formData) {
     await initCsrf();
     const response = await api.post('/events', formData, {

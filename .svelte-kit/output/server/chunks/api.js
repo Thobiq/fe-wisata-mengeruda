@@ -1,6 +1,6 @@
 import axios from "axios";
 //#region src/lib/api.js
-var BACKEND_URL = "http://localhost:8000";
+var BACKEND_URL = "https:///api.mengeruda.id";
 var API_BASE = `${BACKEND_URL}/api/tourism`;
 var api = axios.create({
 	baseURL: API_BASE,
@@ -53,8 +53,11 @@ async function deleteGallery(id) {
 async function getEvents() {
 	return (await api.get("/events")).data.data;
 }
+async function getEvent(id) {
+	return (await api.get(`/events/${id}`)).data.data;
+}
 async function getProfile() {
 	return (await api.get("/profile")).data.data;
 }
 //#endregion
-export { getAttractions as a, getNews as c, getUmkms as d, getAttraction as i, getProducts as l, deleteGallery as n, getEvents as o, deleteNews as r, getGalleries as s, api as t, getProfile as u };
+export { getAttractions as a, getGalleries as c, getProfile as d, getUmkms as f, getAttraction as i, getNews as l, deleteGallery as n, getEvent as o, deleteNews as r, getEvents as s, api as t, getProducts as u };
