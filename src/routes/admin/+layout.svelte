@@ -118,10 +118,27 @@
 			const response = await api.get('/user');
 			if (response.data.success) {
 				let perms = [];
+				let isSuperAdmin = false;
 				if (response.data.user.roles) {
 					response.data.user.roles.forEach((role) => {
+						const rName = (role.name || '').toLowerCase();
+						if (rName.includes('super admin') || rName.includes('admin') || rName.includes('administrator')) {
+							isSuperAdmin = true;
+						}
 						if (role.permissions) {
 							role.permissions.forEach((p) => perms.push(p.name));
+						}
+					});
+				}
+				// Jika role adalah Super Admin / Admin, atau jika user memiliki permission admin umum, berikan akses penuh menu pariwisata
+				if (isSuperAdmin || perms.includes('manage-users') || perms.includes('manage-profile')) {
+					allMenus.forEach((m) => {
+						if (m.permissions) {
+							if (Array.isArray(m.permissions)) {
+								perms.push(...m.permissions);
+							} else {
+								perms.push(m.permissions);
+							}
 						}
 					});
 				}
