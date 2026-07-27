@@ -1,6 +1,6 @@
 import axios from "axios";
 //#region src/lib/api.js
-var BACKEND_URL = "https:///api.mengeruda.id";
+var BACKEND_URL = "https://api.mengeruda.id";
 var API_BASE = `${BACKEND_URL}/api/tourism`;
 var api = axios.create({
 	baseURL: API_BASE,
