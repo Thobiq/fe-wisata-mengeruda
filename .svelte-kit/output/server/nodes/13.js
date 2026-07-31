@@ -3,6 +3,6 @@
 export const index = 13;
 let component_cache;
 export const component = async () => component_cache ??= (await import('../entries/pages/admin/berita/_page.svelte.js')).default;
-export const imports = ["_app/immutable/nodes/13.AN5JI4kI.js","_app/immutable/chunks/B8o_ubcR.js","_app/immutable/chunks/xihTtKlq.js","_app/immutable/chunks/356GbviH.js","_app/immutable/chunks/DzQ31Vpf.js","_app/immutable/chunks/BRf5KToz.js","_app/immutable/chunks/hwjPWAVD.js"];
+export const imports = ["_app/immutable/nodes/13.BI6F5Nna.js","_app/immutable/chunks/B8o_ubcR.js","_app/immutable/chunks/xihTtKlq.js","_app/immutable/chunks/DV2H9CpK.js","_app/immutable/chunks/DzQ31Vpf.js","_app/immutable/chunks/BRf5KToz.js","_app/immutable/chunks/hwjPWAVD.js"];
 export const stylesheets = ["_app/immutable/assets/quill.DVB7LGv8.css","_app/immutable/assets/13.BjoPCfsM.css"];
 export const fonts = [];

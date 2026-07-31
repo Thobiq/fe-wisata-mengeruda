@@ -52,7 +52,6 @@ export async function getAttraction(id) {
 }
 
 export async function createAttraction(formData) {
-    await initCsrf();
     const response = await api.post('/attractions', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
     });
@@ -60,7 +59,6 @@ export async function createAttraction(formData) {
 }
 
 export async function updateAttraction(id, formData) {
-    await initCsrf();
     // Laravel method spoofing untuk form-data multipart PUT
     if (formData instanceof FormData) {
         formData.append('_method', 'PUT');
@@ -75,7 +73,6 @@ export async function updateAttraction(id, formData) {
 }
 
 export async function deleteAttraction(id) {
-    await initCsrf();
     const response = await api.delete(`/attractions/${id}`);
     return response.data;
 }
@@ -89,7 +86,6 @@ export async function getUmkms() {
 }
 
 export async function createUmkm(formData) {
-    await initCsrf();
     const response = await api.post('/umkms', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
     });
@@ -97,7 +93,6 @@ export async function createUmkm(formData) {
 }
 
 export async function updateUmkm(id, formData) {
-    await initCsrf();
     if (formData instanceof FormData) {
         formData.append('_method', 'PUT');
         const response = await api.post(`/umkms/${id}`, formData, {
@@ -111,7 +106,6 @@ export async function updateUmkm(id, formData) {
 }
 
 export async function deleteUmkm(id) {
-    await initCsrf();
     const response = await api.delete(`/umkms/${id}`);
     return response.data;
 }
@@ -126,7 +120,6 @@ export async function getProducts(umkmId = null) {
 }
 
 export async function createProduct(formData) {
-    await initCsrf();
     const response = await api.post('/products', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
     });
@@ -134,7 +127,6 @@ export async function createProduct(formData) {
 }
 
 export async function updateProduct(id, formData) {
-    await initCsrf();
     if (formData instanceof FormData) {
         formData.append('_method', 'PUT');
         const response = await api.post(`/products/${id}`, formData, {
@@ -148,7 +140,6 @@ export async function updateProduct(id, formData) {
 }
 
 export async function deleteProduct(id) {
-    await initCsrf();
     const response = await api.delete(`/products/${id}`);
     return response.data;
 }
@@ -162,7 +153,6 @@ export async function getNews() {
 }
 
 export async function createNews(formData) {
-    await initCsrf();
     const response = await api.post('/news', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
     });
@@ -170,7 +160,6 @@ export async function createNews(formData) {
 }
 
 export async function updateNews(id, formData) {
-    await initCsrf();
     if (formData instanceof FormData) {
         formData.append('_method', 'PUT');
         const response = await api.post(`/news/${id}`, formData, {
@@ -184,7 +173,6 @@ export async function updateNews(id, formData) {
 }
 
 export async function deleteNews(id) {
-    await initCsrf();
     const response = await api.delete(`/news/${id}`);
     return response.data;
 }
@@ -200,7 +188,6 @@ export async function getGalleries(category = 'Semua') {
 }
 
 export async function createGallery(formData) {
-    await initCsrf();
     const response = await api.post('/galleries', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
     });
@@ -208,7 +195,6 @@ export async function createGallery(formData) {
 }
 
 export async function updateGallery(id, formData) {
-    await initCsrf();
     if (formData instanceof FormData) {
         formData.append('_method', 'PUT');
         const response = await api.post(`/galleries/${id}`, formData, {
@@ -222,7 +208,6 @@ export async function updateGallery(id, formData) {
 }
 
 export async function deleteGallery(id) {
-    await initCsrf();
     const response = await api.delete(`/galleries/${id}`);
     return response.data;
 }
@@ -241,7 +226,6 @@ export async function getEvent(id) {
 }
 
 export async function createEvent(formData) {
-    await initCsrf();
     const response = await api.post('/events', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
     });
@@ -249,7 +233,6 @@ export async function createEvent(formData) {
 }
 
 export async function updateEvent(id, formData) {
-    await initCsrf();
     if (formData instanceof FormData) {
         formData.append('_method', 'PUT');
         const response = await api.post(`/events/${id}`, formData, {
@@ -263,7 +246,6 @@ export async function updateEvent(id, formData) {
 }
 
 export async function deleteEvent(id) {
-    await initCsrf();
     const response = await api.delete(`/events/${id}`);
     return response.data;
 }
@@ -277,7 +259,6 @@ export async function getProfile() {
 }
 
 export async function updateProfile(data) {
-    await initCsrf();
     if (data instanceof FormData) {
         const response = await api.post('/profile', data, {
             headers: { 'Content-Type': 'multipart/form-data' }
@@ -293,7 +274,6 @@ export async function updateProfile(data) {
 // 8. UPLOAD IMAGE INLINE
 // =======================
 export async function uploadInlineImage(file) {
-    await initCsrf();
     const formData = new FormData();
     formData.append('image', file);
     const response = await api.post('/upload-image', formData, {
