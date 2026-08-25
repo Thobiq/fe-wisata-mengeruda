@@ -1,6 +1,6 @@
 import axios from "axios";
 var api = axios.create({
-	baseURL: `https://api.mengeruda.id/api/tourism`,
+	baseURL: `https://api-tourism.mengeruda.id/api`,
 	withCredentials: true,
 	headers: {
 		"Accept": "application/json",

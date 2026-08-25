@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const BACKEND_URL = import.meta.env.DEV ? '' : (import.meta.env.VITE_PUBLIC_BACKEND_URL || import.meta.env.PUBLIC_BACKEND_URL || 'http://localhost:8000');
-export const API_BASE = `${BACKEND_URL}/api/tourism`;
+export const API_BASE = `${BACKEND_URL}/api`;
 
 const api = axios.create({
     baseURL: API_BASE,

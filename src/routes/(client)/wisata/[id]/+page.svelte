@@ -60,7 +60,7 @@
     <!-- Konten Judul di Atas Gambar -->
     <div class="relative z-10 max-w-[1200px] mx-auto w-full px-6 pb-12">
       <!-- Tombol Kembali -->
-      <a href="/" class="inline-flex items-center gap-2 text-[#C79F44] hover:text-white transition-colors mb-8 group bg-[#161311]/60 px-5 py-2.5 rounded-full backdrop-blur-md border border-[#C79F44]/30 w-fit">
+      <a href="/wisata" class="inline-flex items-center gap-2 text-[#C79F44] hover:text-white transition-colors mb-8 group bg-[#161311]/60 px-5 py-2.5 rounded-full backdrop-blur-md border border-[#C79F44]/30 w-fit">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform">
           <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
         </svg>

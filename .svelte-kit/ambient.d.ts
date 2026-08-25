@@ -39,10 +39,10 @@
  */
 declare module '$env/static/private' {
 	export const VITE_PUBLIC_BACKEND_URL: string;
-	export const EFC_9172_2775293581: string;
 	export const npm_execpath: string;
 	export const CHROME_CRASHPAD_PIPE_NAME: string;
 	export const npm_config_node_gyp: string;
+	export const EFC_19924_2775293581: string;
 	export const npm_config_init_module: string;
 	export const NODE_ENV: string;
 	export const ALLUSERSPROFILE: string;
@@ -62,18 +62,18 @@ declare module '$env/static/private' {
 	export const ComSpec: string;
 	export const configsetroot: string;
 	export const DriverData: string;
-	export const EFC_9172_1262719628: string;
 	export const npm_config_prefix: string;
 	export const NPM_PREFIX_NPM_CLI_JS: string;
+	export const EFC_19924_1262719628: string;
 	export const PATHEXT: string;
-	export const EFC_9172_1592913036: string;
-	export const EFC_9172_2283032206: string;
-	export const EFC_9172_2946480783: string;
+	export const EFC_19924_1592913036: string;
+	export const EFC_19924_2283032206: string;
 	export const OS: string;
 	export const npm_config_user_agent: string;
-	export const EFC_9172_3789132940: string;
+	export const EFC_19924_2946480783: string;
 	export const npm_package_json: string;
-	export const EFC_9172_4126798990: string;
+	export const EFC_19924_3789132940: string;
+	export const EFC_19924_4126798990: string;
 	export const FPS_BROWSER_APP_PROFILE_STRING: string;
 	export const NPM_PREFIX_JS: string;
 	export const npm_config_noproxy: string;
@@ -222,10 +222,10 @@ declare module '$env/static/public' {
 declare module '$env/dynamic/private' {
 	export const env: {
 		VITE_PUBLIC_BACKEND_URL: string;
-		EFC_9172_2775293581: string;
 		npm_execpath: string;
 		CHROME_CRASHPAD_PIPE_NAME: string;
 		npm_config_node_gyp: string;
+		EFC_19924_2775293581: string;
 		npm_config_init_module: string;
 		NODE_ENV: string;
 		ALLUSERSPROFILE: string;
@@ -245,18 +245,18 @@ declare module '$env/dynamic/private' {
 		ComSpec: string;
 		configsetroot: string;
 		DriverData: string;
-		EFC_9172_1262719628: string;
 		npm_config_prefix: string;
 		NPM_PREFIX_NPM_CLI_JS: string;
+		EFC_19924_1262719628: string;
 		PATHEXT: string;
-		EFC_9172_1592913036: string;
-		EFC_9172_2283032206: string;
-		EFC_9172_2946480783: string;
+		EFC_19924_1592913036: string;
+		EFC_19924_2283032206: string;
 		OS: string;
 		npm_config_user_agent: string;
-		EFC_9172_3789132940: string;
+		EFC_19924_2946480783: string;
 		npm_package_json: string;
-		EFC_9172_4126798990: string;
+		EFC_19924_3789132940: string;
+		EFC_19924_4126798990: string;
 		FPS_BROWSER_APP_PROFILE_STRING: string;
 		NPM_PREFIX_JS: string;
 		npm_config_noproxy: string;
