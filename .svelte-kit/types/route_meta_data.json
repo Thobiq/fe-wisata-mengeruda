@@ -10,6 +10,7 @@
 	"/admin/tempat-wisata": [],
 	"/admin/umkm": [],
 	"/admin/umkm/[id]/produk": [],
+	"/auth-receiver": [],
 	"/(client)/berita/[slug]": [
 		"src/routes/(client)/berita/[slug]/+page.js"
 	],

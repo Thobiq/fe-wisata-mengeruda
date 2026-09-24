@@ -29,7 +29,8 @@ export const nodes = [
 	() => import('./nodes/17'),
 	() => import('./nodes/18'),
 	() => import('./nodes/19'),
-	() => import('./nodes/20')
+	() => import('./nodes/20'),
+	() => import('./nodes/21')
 ];
 
 export const server_loads = [];
@@ -45,6 +46,7 @@ export const dictionary = {
 		"/admin/tempat-wisata": [18,[3]],
 		"/admin/umkm": [19,[3]],
 		"/admin/umkm/[id]/produk": [20,[3]],
+		"/auth-receiver": [21],
 		"/(client)/berita/[slug]": [5,[2]],
 		"/(client)/kegiatan/[id]": [6,[2]],
 		"/(client)/login": [7,[2]],

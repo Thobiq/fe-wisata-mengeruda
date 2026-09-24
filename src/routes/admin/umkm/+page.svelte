@@ -8,11 +8,72 @@
 
   let showModal = $state(false);
   let editMode = $state(false);
-  let currentUMKM = $state({ id: null, name: '', address: '', gmaps: '', wa: '', ig: '', fb: '', tiktok: '', logo: '' });
+  let currentUMKM = $state({ id: null, name: '', address: '', gmaps: '', wa: '', ig: '', fb: '', tiktok: '', logo: '', latitude: '', longitude: '' });
   let searchQuery = $state('');
 
   let logoFiles = $state();
   let logoPreview = $derived(logoFiles && logoFiles.length > 0 ? URL.createObjectURL(logoFiles[0]) : null);
+
+  let map;
+  let marker;
+  let L;
+
+  const mapAction = (node) => {
+    import('leaflet').then(leaflet => {
+      L = leaflet.default || leaflet;
+      
+      delete L.Icon.Default.prototype._getIconUrl;
+      L.Icon.Default.mergeOptions({
+        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+      });
+
+      const defaultCoords = [-8.6657, 121.0559];
+      const startCoords = currentUMKM.latitude && currentUMKM.longitude ? [currentUMKM.latitude, currentUMKM.longitude] : defaultCoords;
+
+      map = L.map(node).setView(startCoords, 14);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+
+      const setMarker = (lat, lng) => {
+        if (marker) {
+          marker.setLatLng([lat, lng]);
+        } else {
+          marker = L.marker([lat, lng], { draggable: true }).addTo(map);
+          marker.on('dragend', function (e) {
+            const position = marker.getLatLng();
+            currentUMKM.latitude = position.lat.toFixed(8);
+            currentUMKM.longitude = position.lng.toFixed(8);
+          });
+        }
+        currentUMKM.latitude = parseFloat(lat).toFixed(8);
+        currentUMKM.longitude = parseFloat(lng).toFixed(8);
+      };
+
+      if (currentUMKM.latitude && currentUMKM.longitude) {
+        setMarker(currentUMKM.latitude, currentUMKM.longitude);
+      }
+
+      map.on('click', function(e) {
+        setMarker(e.latlng.lat, e.latlng.lng);
+      });
+      
+      setTimeout(() => map.invalidateSize(), 300);
+    });
+
+    return {
+      destroy() {
+        if (map) {
+          map.remove();
+          map = null;
+          marker = null;
+        }
+      }
+    };
+  };
 
   let filteredUMKM = $derived(
     umkmList.filter(u => (u.name || '').toLowerCase().includes(searchQuery.toLowerCase()))
@@ -35,7 +96,7 @@
 
   const openAddModal = () => {
     editMode = false;
-    currentUMKM = { id: null, name: '', address: '', gmaps: '', wa: '', ig: '', fb: '', tiktok: '', logo: '' };
+    currentUMKM = { id: null, name: '', address: '', gmaps: '', wa: '', ig: '', fb: '', tiktok: '', logo: '', latitude: '', longitude: '' };
     logoFiles = undefined;
     showModal = true;
   };
@@ -68,6 +129,8 @@
       const formData = new FormData();
       formData.append('name', currentUMKM.name || '');
       formData.append('address', currentUMKM.address || '');
+      formData.append('latitude', currentUMKM.latitude || '');
+      formData.append('longitude', currentUMKM.longitude || '');
       formData.append('gmaps', currentUMKM.gmaps || '');
       formData.append('wa', currentUMKM.wa || '');
       formData.append('ig', currentUMKM.ig || '');
@@ -97,6 +160,7 @@
 
 <svelte:head>
   <title>Manajemen UMKM - Tourism Admin</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
 </svelte:head>
 
 <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -216,6 +280,15 @@
             <textarea bind:value={currentUMKM.address} rows="2" class="w-full px-4 py-3 rounded-xl border border-[#EAE5DF] focus:border-[#C79F44] outline-none bg-[#FDFBF7] text-[#161311]"></textarea>
           </div>
 
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold text-[#6D5D51] mb-2">Koordinat Lokasi (Pilih di Peta)</label>
+            <div class="w-full h-[300px] rounded-xl border border-[#EAE5DF] overflow-hidden mb-3 z-10" use:mapAction></div>
+            <div class="flex gap-4">
+              <input type="text" bind:value={currentUMKM.latitude} placeholder="Latitude" class="w-full px-4 py-3 rounded-xl border border-[#EAE5DF] bg-gray-50 text-[#161311] text-sm" readonly />
+              <input type="text" bind:value={currentUMKM.longitude} placeholder="Longitude" class="w-full px-4 py-3 rounded-xl border border-[#EAE5DF] bg-gray-50 text-[#161311] text-sm" readonly />
+            </div>
+          </div>
+          
           <div class="md:col-span-2">
             <label class="block text-sm font-semibold text-[#6D5D51] mb-2">Link Google Maps (Opsional)</label>
             <input type="url" bind:value={currentUMKM.gmaps} placeholder="https://maps.app.goo.gl/..." class="w-full px-4 py-3 rounded-xl border border-[#EAE5DF] focus:border-[#C79F44] outline-none bg-[#FDFBF7] text-[#161311]" />

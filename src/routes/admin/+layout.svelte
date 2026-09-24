@@ -170,8 +170,10 @@
 	});
 
 	const redirectToLogin = () => {
-		const currentUrl = window.location.pathname + window.location.search;
-		window.location.href = `/login?redirect_to=${encodeURIComponent(currentUrl)}`;
+		localStorage.removeItem('sso_token');
+		localStorage.removeItem('sso_user');
+		const ssoUrl = import.meta.env.VITE_PUBLIC_SSO_URL || 'http://localhost:5176/';
+		window.location.href = ssoUrl;
 	};
 
 	const handleLogout = () => {
@@ -180,13 +182,7 @@
 
 	const confirmLogout = async () => {
 		isLoggingOut = true;
-		try {
-			if (!forceBypassAuth) await api.post('/logout');
-		} catch (err) {
-			console.error('Logout failed:', err);
-		} finally {
-			redirectToLogin();
-		}
+		redirectToLogin();
 	};
 </script>
 

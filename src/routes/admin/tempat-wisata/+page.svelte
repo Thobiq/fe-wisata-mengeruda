@@ -7,10 +7,71 @@
 
   let showModal = $state(false);
   let editMode = $state(false);
-  let currentPlace = $state({ id: null, name: '', address: '', price: '', description: '', image: '' });
+  let currentPlace = $state({ id: null, name: '', address: '', price: '', description: '', image: '', latitude: '', longitude: '' });
   let imageFiles = $state();
   let searchQuery = $state('');
   let isSaving = $state(false);
+
+  let map;
+  let marker;
+  let L;
+
+  const mapAction = (node) => {
+    import('leaflet').then(leaflet => {
+      L = leaflet.default || leaflet;
+      
+      delete L.Icon.Default.prototype._getIconUrl;
+      L.Icon.Default.mergeOptions({
+        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+      });
+
+      const defaultCoords = [-8.6657, 121.0559];
+      const startCoords = currentPlace.latitude && currentPlace.longitude ? [currentPlace.latitude, currentPlace.longitude] : defaultCoords;
+
+      map = L.map(node).setView(startCoords, 14);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+
+      const setMarker = (lat, lng) => {
+        if (marker) {
+          marker.setLatLng([lat, lng]);
+        } else {
+          marker = L.marker([lat, lng], { draggable: true }).addTo(map);
+          marker.on('dragend', function (e) {
+            const position = marker.getLatLng();
+            currentPlace.latitude = position.lat.toFixed(8);
+            currentPlace.longitude = position.lng.toFixed(8);
+          });
+        }
+        currentPlace.latitude = parseFloat(lat).toFixed(8);
+        currentPlace.longitude = parseFloat(lng).toFixed(8);
+      };
+
+      if (currentPlace.latitude && currentPlace.longitude) {
+        setMarker(currentPlace.latitude, currentPlace.longitude);
+      }
+
+      map.on('click', function(e) {
+        setMarker(e.latlng.lat, e.latlng.lng);
+      });
+      
+      setTimeout(() => map.invalidateSize(), 300);
+    });
+
+    return {
+      destroy() {
+        if (map) {
+          map.remove();
+          map = null;
+          marker = null;
+        }
+      }
+    };
+  };
 
   let filteredPlaces = $derived(
     places.filter(p => (p.name || '').toLowerCase().includes(searchQuery.toLowerCase()))
@@ -33,7 +94,7 @@
 
   const openAddModal = () => {
     editMode = false;
-    currentPlace = { id: null, name: '', address: '', price: '', description: '', image: '' };
+    currentPlace = { id: null, name: '', address: '', price: '', description: '', image: '', latitude: '', longitude: '' };
     imageFiles = undefined;
     showModal = true;
   };
@@ -66,6 +127,8 @@
       const formData = new FormData();
       formData.append('name', currentPlace.name || '');
       formData.append('address', currentPlace.address || '');
+      formData.append('latitude', currentPlace.latitude || '');
+      formData.append('longitude', currentPlace.longitude || '');
       formData.append('price', currentPlace.price || 'Gratis');
       formData.append('description', currentPlace.description || '');
 
@@ -92,6 +155,7 @@
 
 <svelte:head>
   <title>Tempat Wisata - Tourism Admin</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
 </svelte:head>
 
 <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -211,6 +275,14 @@
           <div class="md:col-span-2">
             <label class="block text-sm font-semibold text-[#6D5D51] mb-2">Deskripsi Lengkap</label>
             <textarea bind:value={currentPlace.description} rows="4" placeholder="Ceritakan daya tarik tempat wisata ini..." class="w-full px-4 py-3 rounded-xl border border-[#EAE5DF] focus:border-[#C79F44] outline-none bg-[#FDFBF7] text-[#161311]"></textarea>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold text-[#6D5D51] mb-2">Koordinat Lokasi (Pilih di Peta)</label>
+            <div class="w-full h-[300px] rounded-xl border border-[#EAE5DF] overflow-hidden mb-3 z-10" use:mapAction></div>
+            <div class="flex gap-4">
+              <input type="text" bind:value={currentPlace.latitude} placeholder="Latitude" class="w-full px-4 py-3 rounded-xl border border-[#EAE5DF] bg-gray-50 text-[#161311] text-sm" readonly />
+              <input type="text" bind:value={currentPlace.longitude} placeholder="Longitude" class="w-full px-4 py-3 rounded-xl border border-[#EAE5DF] bg-gray-50 text-[#161311] text-sm" readonly />
+            </div>
           </div>
         </div>
 
