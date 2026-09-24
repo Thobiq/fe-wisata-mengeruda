@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: import.meta.env.DEV ? '/api' : (import.meta.env.VITE_PUBLIC_BACKEND_URL || import.meta.env.PUBLIC_BACKEND_URL || 'http://localhost:8001/api'),
+    baseURL: import.meta.env.DEV ? '/api' : ((import.meta.env.VITE_PUBLIC_BACKEND_URL || import.meta.env.PUBLIC_BACKEND_URL || 'http://localhost:8001').replace(/\/$/, '') + '/api'),
     headers: {
         'Accept': 'application/json'
     }
